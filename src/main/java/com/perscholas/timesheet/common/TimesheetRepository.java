@@ -1,6 +1,7 @@
 package com.perscholas.timesheet.common;
 
 import jakarta.annotation.PostConstruct;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
@@ -11,58 +12,65 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class TimesheetRepository {
+public interface TimesheetRepository extends JpaRepository <Timesheet, Integer> {
 
-    private final JdbcClient jdbcClient;
-
-
-    public TimesheetRepository(JdbcClient jdbcClient) {
-        this.jdbcClient = jdbcClient;
-    }
-
-    public List<Timesheet> findAll(){
-        return jdbcClient.sql("SELECT * FROM Timesheet").query(Timesheet.class).list();
-    }
-
-    public void create(Timesheet timesheet){
-
-        jdbcClient.sql("CREATE timesheet SET name = :name," +
-                        " punchInTime = :punchInTime, punchOutTime = :punchOutTime, hoursWorked " +
-                        "= :hoursWorked, location = :location, payRate = :payRate WHERE id = :id")
-                .param("id", timesheet.id())
-                .param("name", timesheet.name())
-                .param("punchInTime", timesheet.punch_in_time())
-                .param("punchOutTime", timesheet.punch_out_time())
-                .param("hoursWorked", timesheet.hours_worked())
-                .param("location", timesheet.location().name())
-                .param("payRate", timesheet.pay_rate())
-                .update();
-    }
-
-    public void update(Timesheet timesheet, Integer id){
-        jdbcClient.sql("UPDATE timesheet SET name = :name, punchInTime = " +
-                        ":punchInTime, punchOutTime = :punchOutTime, hoursWorked = :hoursWorked, location = :location, payRate = :payRate WHERE id = :id")
-                .param("id", id)
-                .param("name", timesheet.name())
-                .param("punchInTime", timesheet.punch_in_time())
-                .param("punchOutTime", timesheet.punch_out_time())
-                .param("hoursWorked", timesheet.hours_worked())
-                .param("location", timesheet.location().name())
-                .param("payRate", timesheet.pay_rate())
-                .update();
-    }
-    public void delete(Integer id){
-        jdbcClient.sql("DELETE FROM timesheet WHERE id = :id")
-                .param("id", id)
-                .update();
-    }
-    public Optional<Timesheet> findByID(Integer id){
-        return jdbcClient.sql("SELECT * FROM timesheet WHERE id = :id")
-                .param( "id", id)
-                .query(Timesheet.class)
-                .optional();
-    }
+    List<Timesheet> findByLocation(Location location);
 }
+
+
+
+//private final JdbcClient jdbcClient;
+//
+//
+//public TimesheetRepository(JdbcClient jdbcClient) {
+//    this.jdbcClient = jdbcClient;
+//}
+//
+//public List<Timesheet> findAll(){
+//    return jdbcClient.sql("SELECT * FROM Timesheet").query(Timesheet.class).list();
+//}
+//
+//public void create(Timesheet timesheet){
+//
+//    jdbcClient.sql("CREATE timesheet SET name = :name," +
+//                    " punchInTime = :punchInTime, punchOutTime = :punchOutTime, hoursWorked " +
+//                    "= :hoursWorked, location = :location, payRate = :payRate WHERE id = :id")
+//            .param("id", timesheet.id())
+//            .param("name", timesheet.name())
+//            .param("punchInTime", timesheet.punch_in_time())
+//            .param("punchOutTime", timesheet.punch_out_time())
+//            .param("hoursWorked", timesheet.hours_worked())
+//            .param("location", timesheet.location().name())
+//            .param("payRate", timesheet.pay_rate())
+//            .update();
+//}
+//
+//public void update(Timesheet timesheet, Integer id){
+//    jdbcClient.sql("UPDATE timesheet SET name = :name, punchInTime = " +
+//                    ":punchInTime, punchOutTime = :punchOutTime, hoursWorked = :hoursWorked, location = :location, payRate = :payRate WHERE id = :id")
+//            .param("id", id)
+//            .param("name", timesheet.name())
+//            .param("punchInTime", timesheet.punch_in_time())
+//            .param("punchOutTime", timesheet.punch_out_time())
+//            .param("hoursWorked", timesheet.hours_worked())
+//            .param("location", timesheet.location().name())
+//            .param("payRate", timesheet.pay_rate())
+//            .update();
+//}
+//public void delete(Integer id){
+//    jdbcClient.sql("DELETE FROM timesheet WHERE id = :id")
+//            .param("id", id)
+//            .update();
+//}
+//public Optional<Timesheet> findByID(Integer id){
+//    return jdbcClient.sql("SELECT * FROM timesheet WHERE id = :id")
+//            .param( "id", id)
+//            .query(Timesheet.class)
+//            .optional();
+//}
+
+//Different code starting here!!
+
 //    private final List<Timesheet> timesheets = new ArrayList<>();
 //
 //    @PostConstruct
