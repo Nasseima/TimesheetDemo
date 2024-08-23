@@ -1,4 +1,4 @@
-INSERT INTO Timesheet (id, name, punchInTime, punchOutTime, hoursWorked, location, payRate) VALUES
+INSERT INTO Timesheet (id, name, punch_in_time, punch_out_time, hours_worked, location, pay_rate) VALUES
 (1, 'August 19th', '2023-08-19 08:00:00', '2023-08-19 16:00:00', 8, 'OFFICE', 30.00),
 (2, 'August 20th', '2023-08-20 08:00:00', '2023-08-20 16:00:00', 8, 'OFFICE', 30.00),
 (3, 'August 21st', '2023-08-21 08:00:00', '2023-08-21 16:00:00', 8, 'REMOTE', 30.00),

@@ -26,21 +26,29 @@ public class TimesheetRepository {
 
     public void create(Timesheet timesheet){
 
-        jdbcClient.sql("INSERT INTO timesheet (id, name, punchInTime, punchOutTime, hoursWorked, location, payRate) VALUES (?, ?, ?, ?, ?, ?, ?)")
-                .params(timesheet.id())
-                .params(timesheet.name())
-                .params(timesheet.punchInTime())
-                .params(timesheet.punchOutTime())
-                .params(timesheet.hoursWorked())
-                .params(timesheet.location().name())
-                .params(timesheet.payRate())
+        jdbcClient.sql("CREATE timesheet SET name = :name," +
+                        " punchInTime = :punchInTime, punchOutTime = :punchOutTime, hoursWorked " +
+                        "= :hoursWorked, location = :location, payRate = :payRate WHERE id = :id")
+                .param("id", timesheet.id())
+                .param("name", timesheet.name())
+                .param("punchInTime", timesheet.punch_in_time())
+                .param("punchOutTime", timesheet.punch_out_time())
+                .param("hoursWorked", timesheet.hours_worked())
+                .param("location", timesheet.location().name())
+                .param("payRate", timesheet.pay_rate())
                 .update();
     }
 
     public void update(Timesheet timesheet, Integer id){
         jdbcClient.sql("UPDATE timesheet SET name = :name, punchInTime = " +
                         ":punchInTime, punchOutTime = :punchOutTime, hoursWorked = :hoursWorked, location = :location, payRate = :payRate WHERE id = :id")
-                .params(timesheet)
+                .param("id", id)
+                .param("name", timesheet.name())
+                .param("punchInTime", timesheet.punch_in_time())
+                .param("punchOutTime", timesheet.punch_out_time())
+                .param("hoursWorked", timesheet.hours_worked())
+                .param("location", timesheet.location().name())
+                .param("payRate", timesheet.pay_rate())
                 .update();
     }
     public void delete(Integer id){

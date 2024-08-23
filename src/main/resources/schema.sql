@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS Timesheet(
 id INT PRIMARY KEY,
 name VARCHAR(255),
-punchInTime TIMESTAMP,
-punchOUTTime TIMESTAMP,
+punch_in_time TIMESTAMP,
+punch_out_time TIMESTAMP,
 hoursWorked INT,
-location VARCHAR(50),
+location ENUM('OFFICE', 'REMOTE'),
 payRate DECIMAL(10, 2)
 );
